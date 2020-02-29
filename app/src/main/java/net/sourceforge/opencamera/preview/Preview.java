@@ -1,3 +1,7 @@
+/*
+This code was modified to send HTTP requests to a server (around line 2200).
+ */
+
 package net.sourceforge.opencamera.preview;
 
 import net.sourceforge.opencamera.cameracontroller.RawImage;
