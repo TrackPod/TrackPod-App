@@ -1,5 +1,5 @@
 /*
-This code was modified to send HTTP requests to a server (around line 2200).
+This code was modified to send HTTP requests to a server.
  */
 
 package net.sourceforge.opencamera.preview;
@@ -321,6 +321,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
     private int trackpod_face_x = 0;
     private int trackpod_face_y = 0;
     private int trackpod_counter = 0;
+    RequestQueue trackpod_queue;
     private final AccessibilityManager accessibility_manager;
     private boolean supports_video_stabilization;
     private boolean supports_photo_video_recording;
@@ -438,6 +439,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
         if( canvasView != null ) {
             parent.addView(canvasView);
         }
+        this.trackpod_queue = Volley.newRequestQueue(getContext());
     }
 
 	/*private void previewToCamera(float [] coords) {
@@ -2080,19 +2082,49 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
                     int last_n_faces = -1;
                     FaceLocation last_face_location = FaceLocation.FACELOCATION_UNSET;
 
-//                    Log.d("FYDP", "");
-
                     /** Note, at least for Camera2 API, onFaceDetection() isn't called on UI thread.
                      */
                     @Override
                     public void onFaceDetection(final CameraController.Face[] faces) {
-                        if( MyDebug.LOG )
+//                        if( MyDebug.LOG )
 
 //                            if (faces.length > 0) {
 //                                Log.d(TAG, "onFaceDetection: " + faces.length + " : " + Arrays.toString(faces) + "centerX: " + faces[0].rect.centerX() + "," +
 //                                        " centerY: " + faces[0].rect.centerY());
 //
 //                            }
+                        if (faces.length > 0) {
+//                                    Log.d(TAG, "onFaceDetection: " + faces.length + " : " + Arrays.toString(faces) + "centerX: " + faces[0].rect.centerX() + "," +
+//                                            " centerY: " + faces[0].rect.centerY() + ", trackpod_counter: " + trackpod_counter);
+
+                            if (trackpod_counter == 0) {
+                                trackpod_face_x = faces[0].rect.centerX();
+                                trackpod_face_y = faces[0].rect.centerY();
+                            }
+
+                            trackpod_face_x += faces[0].rect.centerX();
+                            trackpod_face_x /= 2;
+                            trackpod_face_y += faces[0].rect.centerY();
+                            trackpod_face_y /= 2;
+
+                            trackpod_counter += 1;
+
+                            if (trackpod_counter == 10) {
+                                //HTTP
+//                                RequestQueue queue = Volley.newRequestQueue(getContext());
+                                String url ="http://192.168.4.1/box/"+ trackpod_face_x +"&"+ trackpod_face_y;
+                                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, null , null );
+                                trackpod_queue.add(stringRequest);
+
+                                //debug
+                                Log.d(TAG, "onFaceDetection: " + "centerX: " + trackpod_face_x + "," + " centerY: " + trackpod_face_y);
+
+//                                this.takePicture();
+
+                                trackpod_counter = 0;
+                            }
+
+                        }
 
                         if( camera_controller == null ) {
                             // can get a crash in some cases when switching camera when face detection is on (at least for Camera2)
@@ -2115,36 +2147,6 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
                             public void run() {
                                 // convert rects to preview screen space - also needs to be done on UI thread
                                 // (otherwise can have crashes if camera_controller becomes null in the meantime)
-
-                                if (faces.length > 0) {
-//                                    Log.d(TAG, "onFaceDetection: " + faces.length + " : " + Arrays.toString(faces) + "centerX: " + faces[0].rect.centerX() + "," +
-//                                            " centerY: " + faces[0].rect.centerY());
-
-                                    if (trackpod_counter == 0) {
-                                        trackpod_face_x = faces[0].rect.centerX();
-                                        trackpod_face_y = faces[0].rect.centerX();
-                                    }
-
-                                    trackpod_face_x += faces[0].rect.centerX();
-                                    trackpod_face_x /= 2;
-                                    trackpod_face_y += faces[0].rect.centerY();
-                                    trackpod_face_y /= 2;
-
-                                    trackpod_counter += 1;
-
-                                    if (trackpod_counter == 5) {
-                                        //HTTP
-                                        Log.d(TAG, "onFaceDetection: " + "centerX: " + trackpod_face_x + "," + " centerY: " + trackpod_face_y);
-
-                                        RequestQueue queue = Volley.newRequestQueue(getContext());
-                                        String url ="http://192.168.4.1/box/"+ trackpod_face_x +"&"+ trackpod_face_y;
-                                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, null , null );
-                                        queue.add(stringRequest);
-
-                                        trackpod_counter = 0;
-                                    }
-
-                                }
 
                                 final Matrix matrix = getCameraToPreviewMatrix();
                                 for(CameraController.Face face : faces) {
