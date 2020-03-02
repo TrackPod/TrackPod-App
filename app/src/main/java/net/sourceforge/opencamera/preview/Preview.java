@@ -2113,7 +2113,14 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
                                 //HTTP
 //                                RequestQueue queue = Volley.newRequestQueue(getContext());
                                 String url ="http://192.168.4.1/box/"+ trackpod_face_x +"&"+ trackpod_face_y;
-                                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, null , null );
+                                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                // Display the first 500 characters of the response string.
+                                                Log.i(TAG, "Response is: "+ response.substring(0,500));
+                                            }
+                                        }, null );
                                 trackpod_queue.add(stringRequest);
 
                                 //debug
