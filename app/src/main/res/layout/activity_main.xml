@@ -28,16 +28,14 @@
         android:id="@+id/switch_camera"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:padding="5dp"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/switch_to_front_camera"
-        android:src="@drawable/switch_camera"
-        android:onClick="clickedSwitchCamera"
         android:layout_above="@+id/take_photo"
         android:background="@drawable/circle_background"
         android:backgroundTint="@color/icons_background_tint"
         android:backgroundTintMode="src_in"
-        />
+        android:contentDescription="@string/switch_to_front_camera"
+        android:onClick="clickedSwitchCamera"
+        android:padding="5dp"
+        android:scaleType="fitCenter" />
 
     <ImageButton
         android:id="@+id/pause_video"
@@ -196,36 +194,32 @@
         android:backgroundTintMode="src_in"
         android:onClick="clickedPopupSettings"
         />
-    
+
     <ImageButton
         android:id="@+id/exposure"
         android:layout_width="@dimen/onscreen_button_size"
         android:layout_height="@dimen/onscreen_button_size"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/exposure"
-        android:src="@drawable/ic_exposure_white_48dp"
         android:background="@color/icons_background"
         android:backgroundTint="@color/icons_background_tint"
         android:backgroundTintMode="src_in"
+        android:contentDescription="@string/exposure"
         android:onClick="clickedExposure"
-        android:visibility="gone"
-        />
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/exposure_lock"
         android:layout_width="@dimen/onscreen_button_size"
         android:layout_height="@dimen/onscreen_button_size"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/exposure_lock"
-        android:src="@drawable/exposure_unlocked"
         android:background="@color/icons_background"
         android:backgroundTint="@color/icons_background_tint"
         android:backgroundTintMode="src_in"
+        android:contentDescription="@string/exposure_lock"
         android:onClick="clickedExposureLock"
-        android:visibility="gone"
-        />
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
 
 
     <ImageButton
@@ -335,31 +329,27 @@
         android:id="@+id/auto_level"
         android:layout_width="@dimen/onscreen_button_size"
         android:layout_height="@dimen/onscreen_button_size"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/auto_level_enable"
-        android:src="@drawable/auto_stabilise_icon"
         android:background="@color/icons_background"
         android:backgroundTint="@color/icons_background_tint"
         android:backgroundTintMode="src_in"
+        android:contentDescription="@string/auto_level_enable"
         android:onClick="clickedAutoLevel"
-        android:visibility="gone"
-        />
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/cycle_flash"
         android:layout_width="@dimen/onscreen_button_size"
         android:layout_height="@dimen/onscreen_button_size"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/cycle_flash"
-        android:src="@drawable/flash_off"
         android:background="@color/icons_background"
         android:backgroundTint="@color/icons_background_tint"
         android:backgroundTintMode="src_in"
+        android:contentDescription="@string/cycle_flash"
         android:onClick="clickedCycleFlash"
-        android:visibility="gone"
-        />
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/face_detection"
