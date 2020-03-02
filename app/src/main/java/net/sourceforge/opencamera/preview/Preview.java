@@ -321,6 +321,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
     private int trackpod_face_x = 0;
     private int trackpod_face_y = 0;
     private int trackpod_counter = 0;
+    private int trackpod_mutex = 1;
     RequestQueue trackpod_queue;
     private final AccessibilityManager accessibility_manager;
     private boolean supports_video_stabilization;
@@ -657,7 +658,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
             if( MyDebug.LOG )
                 Log.d(TAG, "touch to capture");
             // interpret as if user had clicked take photo/video button, except that we set the focus/metering areas
-            this.takePicturePressed(false, false);
+            this.takePicturePressed(false, true);
             return true;
         }
 
@@ -2118,7 +2119,14 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
                                             @Override
                                             public void onResponse(String response) {
                                                 // Display the first 500 characters of the response string.
-                                                Log.i(TAG, "Response is: "+ response.substring(0,500));
+//                                                Log.d(TAG, "Response is: "+ response);
+//                                                Log.d(TAG, "Response is: _"+ response.substring(0,1) +"_");
+                                                if (response.substring(0, 1).equals("C") & (trackpod_mutex == 1)) {
+                                                    trackpod_mutex = 0;
+//                                                    Log.d(TAG, "Response is: "+ response.substring(0,1));
+                                                    takePicturePressed(false, false);
+                                                    trackpod_mutex = 1;
+                                                }
                                             }
                                         }, null );
                                 trackpod_queue.add(stringRequest);
