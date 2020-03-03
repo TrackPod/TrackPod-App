@@ -44,6 +44,7 @@ import java.util.concurrent.TimeoutException;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -64,6 +65,8 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
@@ -115,7 +118,7 @@ import com.android.volley.toolbox.Volley;
  *  the rest of the application is available through ApplicationInterface.
  *  We could probably do with decoupling this class into separate components!
  */
-public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextureListener {
+public class Preview extends BroadcastReceiver implements SurfaceHolder.Callback, TextureView.SurfaceTextureListener {
     private static final String TAG = "Preview";
 
     private final boolean using_android_l;
@@ -387,6 +390,28 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
     public volatile boolean test_fail_open_camera;
     public volatile boolean test_video_failure;
     public volatile boolean test_ticker_called; // set from MySurfaceView or CanvasView
+
+    @Override
+    public void
+    onReceive(Context context, Intent intent) {
+
+        Log.d(TAG, "Devansh: Have Wifi Connection");
+
+        ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMan.getActiveNetworkInfo();
+
+        if (netInfo != null && netInfo.getType() == ConnectivityManager.TYPE_WIFI)
+            Log.d("WifiReceiver", "Have Wifi Connection");
+        else
+            Log.d("WifiReceiver", "Don't have Wifi Connection");
+
+//        trackpod_queue.cancelAll(new RequestQueue.RequestFilter() {
+//            @Override
+//            public boolean apply(Request<?> request) {
+//                return true;
+//            }
+//        });
+    }
 
     public Preview(ApplicationInterface applicationInterface, ViewGroup parent) {
         if( MyDebug.LOG ) {
@@ -2094,6 +2119,13 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 //                                        " centerY: " + faces[0].rect.centerY());
 //
 //                            }
+//                        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//                        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//
+//                        if (mWifi.isConnected()) {
+//                            // Do whatever
+//                        }
+
                         if (faces.length > 0) {
 //                                    Log.d(TAG, "onFaceDetection: " + faces.length + " : " + Arrays.toString(faces) + "centerX: " + faces[0].rect.centerX() + "," +
 //                                            " centerY: " + faces[0].rect.centerY() + ", trackpod_counter: " + trackpod_counter);
