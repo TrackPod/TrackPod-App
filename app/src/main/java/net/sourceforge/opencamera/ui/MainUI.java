@@ -289,7 +289,7 @@ public class MainUI {
                 buttons_permanent.add(main_activity.findViewById(R.id.gallery));
             }
             buttons_permanent.add(main_activity.findViewById(R.id.settings));
-            buttons_permanent.add(main_activity.findViewById(R.id.popup));
+//            buttons_permanent.add(main_activity.findViewById(R.id.popup)); //Devansh IDK BUT IT WORKED
             buttons_permanent.add(main_activity.findViewById(R.id.exposure));
             //buttons_permanent.add(main_activity.findViewById(R.id.switch_video));
             //buttons_permanent.add(main_activity.findViewById(R.id.switch_camera));
@@ -1877,33 +1877,34 @@ public class MainUI {
     }
 
     public void setPopupIcon() {
-        if( MyDebug.LOG )
-            Log.d(TAG, "setPopupIcon");
-        ImageButton popup = main_activity.findViewById(R.id.popup);
-        String flash_value = main_activity.getPreview().getCurrentFlashValue();
-        if( MyDebug.LOG )
-            Log.d(TAG, "flash_value: " + flash_value);
-        if( main_activity.getMainUI().showCycleFlashIcon() ) {
-            popup.setImageResource(R.drawable.popup);
-        }
-        else if( flash_value != null && flash_value.equals("flash_off") ) {
-            popup.setImageResource(R.drawable.popup_flash_off);
-        }
-        else if( flash_value != null && ( flash_value.equals("flash_torch") || flash_value.equals("flash_frontscreen_torch") ) ) {
-            popup.setImageResource(R.drawable.popup_flash_torch);
-        }
-        else if( flash_value != null && ( flash_value.equals("flash_auto") || flash_value.equals("flash_frontscreen_auto") ) ) {
-            popup.setImageResource(R.drawable.popup_flash_auto);
-        }
-        else if( flash_value != null && ( flash_value.equals("flash_on") || flash_value.equals("flash_frontscreen_on") ) ) {
-            popup.setImageResource(R.drawable.popup_flash_on);
-        }
-        else if( flash_value != null && flash_value.equals("flash_red_eye") ) {
-            popup.setImageResource(R.drawable.popup_flash_red_eye);
-        }
-        else {
-            popup.setImageResource(R.drawable.popup);
-        }
+
+//        if( MyDebug.LOG )
+//            Log.d(TAG, "setPopupIcon");
+//        ImageButton popup = main_activity.findViewById(R.id.popup);
+//        String flash_value = main_activity.getPreview().getCurrentFlashValue();
+//        if( MyDebug.LOG )
+//            Log.d(TAG, "flash_value: " + flash_value);
+//        if( main_activity.getMainUI().showCycleFlashIcon() ) {
+//            popup.setImageResource(R.drawable.popup);
+//        }
+//        else if( flash_value != null && flash_value.equals("flash_off") ) {
+//            popup.setImageResource(R.drawable.popup_flash_off);
+//        }
+//        else if( flash_value != null && ( flash_value.equals("flash_torch") || flash_value.equals("flash_frontscreen_torch") ) ) {
+//            popup.setImageResource(R.drawable.popup_flash_torch);
+//        }
+//        else if( flash_value != null && ( flash_value.equals("flash_auto") || flash_value.equals("flash_frontscreen_auto") ) ) {
+//            popup.setImageResource(R.drawable.popup_flash_auto);
+//        }
+//        else if( flash_value != null && ( flash_value.equals("flash_on") || flash_value.equals("flash_frontscreen_on") ) ) {
+//            popup.setImageResource(R.drawable.popup_flash_on);
+//        }
+//        else if( flash_value != null && flash_value.equals("flash_red_eye") ) {
+//            popup.setImageResource(R.drawable.popup_flash_red_eye);
+//        }
+//        else {
+//            popup.setImageResource(R.drawable.popup);
+//        }
     }
 
     public void closePopup() {
