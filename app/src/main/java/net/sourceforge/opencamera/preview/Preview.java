@@ -2135,9 +2135,20 @@ public class Preview extends BroadcastReceiver implements SurfaceHolder.Callback
                                 trackpod_face_y = faces[0].rect.centerY();
                             }
 
-                            trackpod_face_x += faces[0].rect.centerX();
+                            // Avg faces start
+                            int total_x_error = 0;
+                            int total_y_error = 0;
+                            for(int i = 0; i< faces.length; i++){
+                                total_x_error += faces[i].rect.centerX();
+                                total_y_error += faces[i].rect.centerY();
+                            }
+                            total_x_error /= faces.length;
+                            total_y_error /= faces.length;
+                            // Avg faces end
+
+                            trackpod_face_x += total_x_error;
                             trackpod_face_x /= 2;
-                            trackpod_face_y += faces[0].rect.centerY();
+                            trackpod_face_y += total_y_error;
                             trackpod_face_y /= 2;
 
                             trackpod_counter += 1;
